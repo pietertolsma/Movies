@@ -7,6 +7,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String API_KEY;
+
     public final static String EXTRA_STRING_TITLE = "com.pietertolsma.movies.STRING_TITLE";
     public final static String EXTRA_STRING_MOVIE_ID = "com.pietertolsma.movies.STRING_MOVIE_ID";
     public final static String EXTRA_STRING_DESCRIPTION = "com.pietertolsma.movies.STRING_DESCRIPTION";
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        API_KEY = getResources().getString(R.string.api_key);
 
     }
 

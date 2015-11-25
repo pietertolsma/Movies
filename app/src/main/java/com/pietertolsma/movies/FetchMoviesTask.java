@@ -22,7 +22,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
 
     private static String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
-    private static String API_KEY = R.string.api_key;
+    private static String API_KEY = MainActivity.API_KEY;
 
 
     private MovieAdapter adapter;
