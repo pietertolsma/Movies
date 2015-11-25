@@ -2,4 +2,5 @@
 <resources>
 
 
-</resources>
+
+    <string name="title_activity_detail">DetailActivity</string></resources>
