@@ -21,8 +21,6 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private String[] dataset = new String[0];
-
     private MovieItem movie;
 
     @Override
