@@ -11,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -18,7 +21,9 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private String[] dataset = new String[6];
+    private String[] dataset = new String[0];
+
+    private MovieItem movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,9 @@ public class DetailActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         getIntentExtra();
-        setTitle(dataset[0]);
-        mAdapter = new DetailAdapter(dataset);
+        getImage();
+        setTitle(movie.movieName);
+        mAdapter = new DetailAdapter(movie);
         mRecyclerView.setAdapter(mAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -49,11 +55,14 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    private void getImage(){
+        ImageView preview = (ImageView) findViewById(R.id.detail_preview_picture);
+        Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.imageUrl).into(preview);
+    }
+
     private void getIntentExtra(){
         Intent intent = getIntent();
-        dataset[0] = intent.getStringExtra(MainActivity.EXTRA_STRING_TITLE);
-        dataset[1] = intent.getStringExtra(MainActivity.EXTRA_STRING_DESCRIPTION);
-        dataset[2] = intent.getStringExtra(MainActivity.EXTRA_STRING_RATING);
+        movie = intent.getParcelableExtra(MainActivity.EXTRA_MOVIE);
     }
 
     @Override

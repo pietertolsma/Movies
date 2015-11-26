@@ -9,12 +9,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String API_KEY;
 
-    public final static String EXTRA_STRING_TITLE = "com.pietertolsma.movies.STRING_TITLE";
-    public final static String EXTRA_STRING_MOVIE_ID = "com.pietertolsma.movies.STRING_MOVIE_ID";
-    public final static String EXTRA_STRING_DESCRIPTION = "com.pietertolsma.movies.STRING_DESCRIPTION";
-    public final static String EXTRA_INT_POSITION = "com.pietertolsma.movies.INT_POSITION";
-    public final static String EXTRA_STRING_RATING = "com.pietertolsma.movies.STRING_RATING";
-    public final static String EXTRA_STRING_RELEASE = "com.pietertolsma.movies.STRING_RELEASe";
+    public final static String EXTRA_MOVIE = "com.pietertolsma.movies.MOVIE";
 
 
     @Override

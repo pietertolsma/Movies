@@ -52,12 +52,7 @@ public class MovieListFragment extends Fragment implements AdapterView.OnItemCli
     public void onItemClick(AdapterView parent, View view, int position, long id){
         Intent viewDetailsIntent = new Intent(this.getActivity(), DetailActivity.class);
         MovieItem movie = movies.get(position);
-        viewDetailsIntent.putExtra(MainActivity.EXTRA_INT_POSITION, position);
-        viewDetailsIntent.putExtra(MainActivity.EXTRA_STRING_DESCRIPTION, movie.description);
-        viewDetailsIntent.putExtra(MainActivity.EXTRA_STRING_MOVIE_ID, movie.movieId);
-        viewDetailsIntent.putExtra(MainActivity.EXTRA_STRING_TITLE, movie.movieName);
-        viewDetailsIntent.putExtra(MainActivity.EXTRA_STRING_RATING, movie.rating);
-        viewDetailsIntent.putExtra(MainActivity.EXTRA_STRING_RELEASE, movie.releaseDate);
+        viewDetailsIntent.putExtra(MainActivity.EXTRA_MOVIE, movie);
         startActivity(viewDetailsIntent);
     }
 

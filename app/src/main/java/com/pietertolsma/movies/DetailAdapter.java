@@ -11,18 +11,18 @@ import android.widget.TextView;
  */
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder> {
 
-    private String[] movieDetails;
+    private MovieItem movie;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        public View mView;
         public ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.info_text);
+            mView =  v;
         }
     }
 
-    public DetailAdapter(String[] movieDetails){
-        this.movieDetails = movieDetails;
+    public DetailAdapter(MovieItem movie){
+        this.movie = movie;
     }
 
     @Override
@@ -39,11 +39,20 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
 
-        holder.mTextView.setText(movieDetails[position]);
+        switch(position){
+            case 0:
+                ((TextView) holder.mView.findViewById(R.id.info_text)).setText(movie.description);
+                break;
+            case 1:
+                ((TextView) holder.mView.findViewById(R.id.info_text)).setText(movie.releaseDate);
+            default:
+
+                break;
+        }
     }
 
     @Override
     public int getItemCount(){
-        return movieDetails.length;
+        return 2;
     }
 }
