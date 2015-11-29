@@ -1,5 +1,6 @@
 package com.pietertolsma.movies;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -24,11 +25,19 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
 
     private static String API_KEY = MainActivity.API_KEY;
 
+    private ProgressDialog dialog = null;
+
 
     private MovieAdapter adapter;
 
     public FetchMoviesTask(MovieAdapter adapter){
         this.adapter = adapter;
+        dialog = new ProgressDialog(adapter.getContext());
+        dialog.setMessage("Loading movies..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+
     }
 
     @Override
@@ -84,7 +93,8 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
         }
 
         try{
-            return getMovieDataFromJson(result, numMovies);
+            MovieItem[] movies = getMovieDataFromJson(result, numMovies);
+            return movies;
         }catch(JSONException e){
             Log.e(LOG_TAG, "Error parsing json", e);
         }
@@ -197,6 +207,9 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
 
     @Override
     protected void onPostExecute(MovieItem[] results){
+        if(dialog != null){
+            dialog.hide();
+        }
         if(results != null) {
             adapter.whipe();
             for (MovieItem movie : results) {
