@@ -14,20 +14,23 @@ public class MovieItem implements Parcelable{
     String movieId;
     String rating;
     String releaseDate;
+    String trailerLink;
     int moviePosition;
 
-    public MovieItem(String title, String releaseDate, String rating, String imageUrl, String movieId, String description, int position){
+    public MovieItem(String title, String trailerLink, String releaseDate, String rating, String imageUrl, String movieId, String description, int position){
         movieName = title;
         this.imageUrl = imageUrl;
         this.description = description;
         this.releaseDate = releaseDate;
         this.rating = rating;
         this.movieId = movieId;
+        this.trailerLink = trailerLink;
         moviePosition = position;
     }
 
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(movieName);
+        out.writeString(trailerLink);
         out.writeString(imageUrl);
         out.writeString(releaseDate);
         out.writeString(movieId);
@@ -54,6 +57,7 @@ public class MovieItem implements Parcelable{
 
     private MovieItem(Parcel in) {
         movieName = in.readString();
+        trailerLink = in.readString();
         imageUrl = in.readString();
         releaseDate = in.readString();
         movieId = in.readString();

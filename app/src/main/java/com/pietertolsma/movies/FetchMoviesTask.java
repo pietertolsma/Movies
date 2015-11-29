@@ -36,7 +36,6 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         String result = null;
-
         int numMovies = 20;
 
         try{
@@ -93,7 +92,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
         return null;
     }
 
-    private MovieItem[] getMovieDataFromJson(String result,int numMovies)
+    private MovieItem[] getMovieDataFromJson(String result, int numMovies)
             throws JSONException {
 
         //List of data that needs to be extracted
@@ -127,10 +126,73 @@ public class FetchMoviesTask extends AsyncTask<String, Void, MovieItem[]>{
             rating = movie.getString(RATING);
             Log.d(LOG_TAG, title);
 
-            resultMovies[i] = new MovieItem(title, releaseDate, rating, imageUrl, movieId, description, i);
+            resultMovies[i] = new MovieItem(title, getTrailer(movieId), releaseDate, rating, imageUrl, movieId, description, i);
         }
 
         return resultMovies;
+    }
+
+    protected String getTrailer(String ID){
+        String trailerLink = null;
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+        String result = null;
+
+        try{
+            final String baseURL = "https://api.themoviedb.org/3/movie/" + ID + "/videos" + "?&api_key=" + API_KEY;
+            URL url = new URL(baseURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            InputStream inputStream = connection.getInputStream();
+            StringBuffer buffer = new StringBuffer();
+            if(inputStream == null){
+                return null;
+            }
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while((line = reader.readLine()) != null){
+                buffer.append(line + "\n");
+            }
+            if(buffer.length() == 0){
+                return null;
+            }
+            result = buffer.toString();
+        }catch(IOException e){
+            Log.e(LOG_TAG, "Failed to fetch trailer!" + e.getMessage());
+        }finally{
+            if(connection != null){
+                connection.disconnect();
+            }
+            if(reader != null){
+                try{
+                    reader.close();
+                }catch(IOException e){
+                    Log.e(LOG_TAG, "Error closing stream", e);
+                }
+            }
+        }
+        return parseTrailerLink(result);
+    }
+
+    protected String parseTrailerLink(String result){
+        String trailerBase = "https://www.youtube.com/watch?v=";
+        String key = null;
+        try {
+
+            JSONObject obj = new JSONObject(result);
+            JSONArray arr = obj.getJSONArray("results");
+            if(arr != null){
+                key = arr.getJSONObject(0).getString("key");
+            }
+
+        }catch(JSONException e){
+            key = "dQw4w9WgXcQ";
+        }
+        String fullUrl = trailerBase + key;
+        return fullUrl;
     }
 
     @Override
